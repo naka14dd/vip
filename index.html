@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Charla Roleplay V2 - Login</title>
+  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: url('charla_background.webp') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background-color: rgba(0, 0, 0, 0.75);
+      border-radius: 12px;
+      padding: 30px;
+      width: 95%;
+      max-width: 420px;
+      box-shadow: 0 0 20px rgba(0, 255, 64);
+      text-align: center;
+    }
+    .warning {
+      background-color: #111;
+      color: #f1c40f;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .logo {
+      width: 100px;
+      height: 100px;
+      margin: 10px auto;
+      border: 2px solid #00ff2a;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 24px;
+      color: #00ff2a;
+      background-color: black;
+      box-shadow: 0 0 15px #00ff2a;
+    }
+    h2 { color: #00ff2a; margin: 10px 0 20px; }
+    input {
+      width: 100%; padding: 10px; background: #111; color: white;
+      border: none; border-bottom: 2px solid #555; margin: 10px 0;
+      border-radius: 4px; text-align: right;
+    }
+    .link { margin-top: 10px; font-size: 14px; }
+    .link a { color: rgb(0, 255, 64); text-decoration: none; }
+    button.login {
+      background-color: rgb(0, 255, 64); border: none; color: white;
+      padding: 12px; width: 100%; margin-top: 15px; font-weight: bold;
+      border-radius: 6px; cursor: pointer; transition: 0.3s;
+    }
+    button.login:hover { background-color: #00e65e; }
+    .or { margin: 15px 0; font-weight: bold; color: #aaa; }
+    .discord-btn {
+      background-color: white; color: rgb(17, 0, 255); font-weight: bold;
+      width: 100%; padding: 10px; border-radius: 6px; border: none;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      cursor: pointer;
+    }
+    .discord-btn i { color: #5865f2; font-size: 18px; }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <div class="warning">⚠️ You must be logged in to access the whitelist</div>
+    <div class="logo">CHARLA</div>
+    <h2>Charla Role Play V2 - Login Page</h2>
+    <form id="loginForm">
+      <input type="text" id="username" placeholder="Username - اسم المستخدم" required>
+      <input type="password" id="password" placeholder="Password - كلمة السر" required>
+      <div class="link">Don't have an account? <a href="register.html">Register here!</a></div>
+      <button type="submit" class="login">Login - تسجيل الدخول</button>
+    </form>
+    <div class="or">OR</div>
+ <a href="https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=code&scope=identify%20email">
+  <button class="discord-btn">
+    <i class='bx bxl-discord-alt'></i> Continue With Discord
+  </button>
+</a>
+  </div>
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      const users = JSON.parse(localStorage.getItem("users") || "[]");
+      const found = users.find(u => u.username === user && u.password === pass);
+      if (found) {
+        localStorage.setItem("loggedIn", "true");
+        window.location.href = "whitelist.html";
+      } else {
+        alert("⚠️ اسم المستخدم أو كلمة السر غير صحيحة!");
+      }
+    });
+  </script>
+</body>
+</html>
