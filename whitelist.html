@@ -1,370 +1,0 @@
-
-<!DOCTYPE html>
-
-<html dir="rtl" lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Whitelist | CHARLA RolePlay</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&amp;display=swap" rel="stylesheet"/>
-</head>
-<body style="margin: 0; font-family: 'Cairo', sans-serif; background-color: #111; color: white;">
-<!-- زر "Apply" الجانبي على اليسار -->
-<button id="applyBtn" style="
-        position: fixed;
-        top: 40%;
-        left: 30px;
-        z-index: 999;
-        background: linear-gradient(145deg, #00ff88, #007744);
-        color: #fff;
-        border: none;
-        padding: 12px 24px;
-        font-size: 16px;
-        border-radius: 50px;
-        cursor: pointer;
-        box-shadow: 0 0 20px #00ff88;
-        transition: all 0.3s ease;
-    ">🚀 Apply</button>
-<!-- زر "Store" الجانبي تحت Apply -->
-<button id="storeBtn" style="
-        position: fixed;
-        top: 50%;
-        left: 30px;
-        z-index: 999;
-        background: linear-gradient(145deg, #ffaa00, #aa6600);
-        color: #fff;
-        border: none;
-        padding: 12px 24px;
-        font-size: 16px;
-        border-radius: 50px;
-        cursor: pointer;
-        box-shadow: 0 0 20px #ffaa00;
-        transition: all 0.3s ease;
-    ">🛒 Store</button><button id="rulesBtn" style="
-    position: fixed;
-    top: 60%;
-    left: 30px;
-    z-index: 999;
-    background: linear-gradient(145deg, #00aaff, #004466);
-    color: #fff;
-    border: none;
-    padding: 12px 24px;
-    font-size: 16px;
-    border-radius: 50px;
-    cursor: pointer;
-    box-shadow: 0 0 20px #00aaff;
-    transition: all 0.3s ease;
-">📜 Rules</button>
-<!-- نموذج الوايتليست -->
-<div class="container" id="formContainer" style="display: none; max-width: 800px; margin: 80px auto; background-color: #1a1a1a; padding: 40px; border-radius: 16px; color: white; box-shadow: 0 0 30px #00ff88;">
-<h1 class="title" style="text-align: center; color: #00ff88; margin-bottom: 30px;">📜 Apply for Whitelist</h1>
-<form class="whitelist-form" style="display: flex; flex-direction: column; gap: 15px;">
-<label>👤 جنس الشخصية</label>
-<select style="padding: 10px; background: #000; color: white; border-radius: 8px;">
-<option>ذكر - Male</option>
-<option>أنثى - Female</option>
-</select>
-<label>🧾 الاسم الأول للشخصية</label>
-<input placeholder="أدخل الاسم الأول" style="padding: 10px; background: #000; color: white; border-radius: 8px;" type="text"/>
-<label>🧾 الاسم العائلي للشخصية</label>
-<input placeholder="أدخل الاسم العائلي" style="padding: 10px; background: #000; color: white; border-radius: 8px;" type="text"/>
-<label>🎂 تاريخ الولادة</label>
-<input style="padding: 10px; background: #000; color: white; border-radius: 8px;" type="date"/>
-<label>⚖️ الوزن</label>
-<input max="150" min="40" oninput="weightOutput.value = value + ' Kg'" type="range" value="60"/>
-<output name="weightOutput" style="text-align: center;">60 Kg</output>
-<label>📏 الطول</label>
-<input max="210" min="140" oninput="heightOutput.value = value + ' cm'" type="range" value="175"/>
-<output name="heightOutput" style="text-align: center;">175 cm</output>
-<label>⚖️ توجه الشخصية</label>
-<select style="padding: 10px; background: #000; color: white; border-radius: 8px;">
-<option>قانوني - LEGAL</option>
-<option>غير قانوني - ILLEGAL</option>
-</select>
-<label>🌍 الجنسية</label>
-<select style="padding: 10px; background: #000; color: white; border-radius: 8px;">
-<option>مغربي - Moroccan</option>
-<option>جزائري - Algerian</option>
-<option>تونسي - Tunisian</option>
-</select>
-<label>📖 قصة الشخصية</label>
-<textarea placeholder="اكتب قصة شخصيتك (350 - 2000 حرف)" rows="5" style="padding: 10px; background: #000; color: white; border-radius: 8px;"></textarea>
-<button style="
-                padding: 12px;
-                background-color: #00ff88;
-                color: black;
-                border: none;
-                border-radius: 10px;
-                font-weight: bold;
-                cursor: pointer;
-                transition: background 0.3s ease;
-            " type="submit">✅ إرسال الطلب</button>
-</form>
-</div>
-<div id="rulesSection" style="display: none; max-width: 900px; margin: 80px auto; background-color: #111; padding: 30px; border-radius: 16px; box-shadow: 0 0 40px #00aaff; animation: fadeIn 0.8s ease forwards; color: white;">
-<h2 style="text-align: center; color: #00aaff; margin-bottom: 30px;">📜 General RolePlay Rules</h2>
-<!-- Rule Block 1 -->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);">No Fear</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> عدم الخوف على شخصيتك عندما تكون في خطر أما عصابات او سلاح و أيضا عند مطاردتك من طرف الشرطة
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 2-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Hrp</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong>التكلم خارج الرول بلاي و استعمال مصطلحات خارج نطاق الرول بلاي تعرض صاحبها لعقوبات .
- </p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 3-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);">Meta Gaming</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> الحصول على معلومات خارج اللعبة و استعمالها في اللعبة متلا التواجد في ستريم أثناء وجودك داخل السيرفر أو أن تأخد معلومات من الديسكورد و تدخلها للعبة
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 4-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);">Power Gaming</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> هو القيام بأفعال خارقة للعادة داخل اللعبة متلا القفز من أعلى جسر ثم القيام و المشي بدون أي مشكلة أو أن تصدمك سيارة و تكمل طريقك بدون أي أضرار و بدون طلب المسعفين
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 5-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Free Kill</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong>هو القيام بقتل لاعب داخل اللعبة بدون سبب سواء كان في مكان امن أو غير آمن
- </p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 6-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);">Revange Kill</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> الانتقام من شخص ما قام بقتلك من قبل يجب عليك نسيان من قتلك
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 3-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);">Force Rp</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> إجبار شخص على قبول شروطك دون سماع رأيه و تفرض عليه شيئا لا يقبله هو
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 4-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);">Cohérence RP</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> القيام بأعمال منافية لمنطقة شخصيتك أو القيام بأمور غير منطقية متلا شرطي يقول بأعمال إجرامية أو طبيب يقوم بالسرقة
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 5-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Win RP</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong>هو انك تريد دائما أن تربح في السيناريوهات و تريد أن تكون دائما الفائز و عدم التحلي بالروح الرياضية
- </p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 6-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Fuir Rp (Alt f4 )</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> ممنوع الخروج من اللعبة أثناء وجودك في صراع أو إذا لم ينته السيناريو الذي تشارك فيه
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 7-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Mort RP</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> عندما تموت و تخلق من جديد يجب عليك نسيان كل شيء كان السبب في موتك و تنسى حياتك السابقة ديال الرول بلاي
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 8-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Mass RP</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> يجب عليك أن تعلم أن عدد سكان المدينة يفوق مليونين نسمة و بالتالي هناك عدد كبير من المواطنين من حولك خاصة في الأماكن العامة سواء كانوا على الاقدام أو في المركبات و الأخد بعين الاعتبار عدم تواجدك في الأماكن المخصصة
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 8-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Raccourci RP</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> إستعمال إختصار التقدم بشكل أسرع داخل اللعبة في اللعبة مثلا التعرف على عضو عصابة عن طريقة لبسه أو لون سيارته و ذكر إسم العصابة على لسانك بل يجب عليك أن تأخد معه بالكلام لكي تأخد المعلومات التي تحتاجها
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 8-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Car-Kill</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> ممنوع منعا باتا دهس المواطنين بالسيارة سوآءا كان داخل أو خارج السيارة، بسبب أو بدون سبب
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 8-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Mix rp</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> يجب عليك أن تعلم أن عدد سكان المدينة يفوق مليونين نسمة و بالتالي هناك عدد كبير من المواطنين من حولك خاصة في الأماكن العامة سواء كانوا على الاقدام أو في المركبات و الأخد بعين الاعتبار عدم تواجدك في الأماكن المخصصة
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 8-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Raccourci RP</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> إستعمال إختصار التقدم بشكل أسرع داخل اللعبة في اللعبة مثلا التعرف على عضو عصابة عن طريقة لبسه أو لون سيارته و ذكر إسم العصابة على لسانك بل يجب عليك أن تأخد معه بالكلام لكي تأخد المعلومات التي تحتاجها
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 8-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);">  Car-Kill</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> ممنوع منعا باتا دهس المواطنين بالسيارة سوآءا كان داخل أو خارج السيارة، بسبب أو بدون سبب
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 8-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);">  Mix rp</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> عدم الخلط بين الرول بلاي و خارج رول بلاي و الخلط بين شخصيتك داخل اللعبة و شخصيتك خارج اللعبة
-</p>
-<p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</div>
-<!-- Rule Block 8-->
-<div style="background: #1c1c1c; padding: 20px; border-left: 5px solid red; margin-bottom: 20px; border-radius: 10px;">
-<h3 style="color: rgb(255, 255, 255);"> Mix Scène</h3>
-<p style="color: #00ffff;"><strong>📘 Rule:</strong> التدخل في سيناريو لم يكن لديك أي علاقة لك به منذ بدايته
-        <p style="color: yellow;"><strong>⚠️ </strong> lwa9t 7ta y9oliya bo9al</p>
-</p></div>
-</div>
-<footer style="text-align: center; margin-top: 40px; padding: 20px; color: #666;">
-        © 2025 CHARLA RolePlay - جميع الحقوق محفوظة
-    </footer>
-<style>
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-<script>
-document.getElementById("applyBtn").onclick = function () {
-    document.getElementById("formContainer").style.display = "block";
-    document.getElementById("storeContainer").style.display = "none";
-    document.getElementById("rulesSection").style.display = "none";
-};
-document.getElementById("storeBtn").onclick = function () {
-    document.getElementById("formContainer").style.display = "none";
-    document.getElementById("storeContainer").style.display = "block";
-    document.getElementById("rulesSection").style.display = "none";
-};
-document.getElementById("rulesBtn").onclick = function () {
-    document.getElementById("formContainer").style.display = "none";
-    document.getElementById("storeContainer").style.display = "none";
-    document.getElementById("rulesSection").style.display = "block";
-};
-</script>
-</body>
-</html>
-<!DOCTYPE html>
-
-<html dir="rtl" lang="ar">
-<head>
-<meta charset="utf-8"/>
-<title>CHARLA Store</title>
-</head>
-<body style="background-color: #000; font-family: sans-serif; margin: 0; padding: 0;">
-<!-- صفحة المتجر المعدلة -->
-<div class="container" id="storeContainer" style="display: none;
-    display: block;
-    max-width: 1200px;
-    margin: 80px auto;
-    background-color: #111;
-    padding: 30px;
-    border-radius: 16px;
-    box-shadow: 0 0 30px #ffaa00;
-    animation: fadeIn 0.8s ease forwards;
-">
-<h1 style="text-align: center; color: #ffaa00;">🛒 CHARLA Store</h1>
-<p style="text-align: center; color: white;">اختر سيارتك أو خدمتك المفضلة</p>
-<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-<!-- بطاقة 1 -->
-<div style="width: 220px; background-color: #222; border-radius: 12px; overflow: hidden; border: 2px solid red;">
-<img alt="Mercedes AMG GT 63" src="https://images-ext-1.discordapp.net/external/o7EK1Mpykd-JwdpY4XWV96gyzYEjCUwcQLNK1UCFbgU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/994966462542389278/f978731975ed5c18857c05be87193caf.png?format=webp&amp;quality=lossless&amp;width=768&amp;height=768" style="width: 100%; height: 140px; object-fit: cover;"/>
-<div style="padding: 10px; color: white; text-align: center;">
-<h3 style="margin: 10px 0;">Mercedes AMG GT 63</h3>
-<p style="margin: 0; font-size: 14px;">Category: cars</p>
-<p style="color: red; margin: 8px 0;">150.00 MAD</p>
-<a href="https://wa.me/212698637230" target="_blank"><button style="background: red; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer;">💬 WhatsApp</button></a>
-</div>
-</div>
-<!-- بطاقة 2 -->
-<div style="width: 220px; background-color: #222; border-radius: 12px; overflow: hidden; border: 2px solid red;">
-<img alt="BMW M4" src="https://images-ext-1.discordapp.net/external/o7EK1Mpykd-JwdpY4XWV96gyzYEjCUwcQLNK1UCFbgU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/994966462542389278/f978731975ed5c18857c05be87193caf.png?format=webp&amp;quality=lossless&amp;width=768&amp;height=768" style="width: 100%; height: 140px; object-fit: cover;"/>
-<div style="padding: 10px; color: white; text-align: center;">
-<h3 style="margin: 10px 0;">BMW M4</h3>
-<p style="margin: 0; font-size: 14px;">Category: cars</p>
-<p style="color: red; margin: 8px 0;">150.00 MAD</p>
-<a href="https://wa.me/212698637230" target="_blank"><button style="background: red; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer;">💬 WhatsApp</button></a>
-</div>
-</div>
-<!-- بطاقة 3 -->
-<div style="width: 220px; background-color: #222; border-radius: 12px; overflow: hidden; border: 2px solid red;">
-<img alt="Kawasaki H2R" src="https://images-ext-1.discordapp.net/external/o7EK1Mpykd-JwdpY4XWV96gyzYEjCUwcQLNK1UCFbgU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/994966462542389278/f978731975ed5c18857c05be87193caf.png?format=webp&amp;quality=lossless&amp;width=768&amp;height=768" style="width: 100%; height: 140px; object-fit: cover;"/>
-<div style="padding: 10px; color: white; text-align: center;">
-<h3 style="margin: 10px 0;">Kawasaki H2R</h3>
-<p style="margin: 0; font-size: 14px;">Category: motorbikes</p>
-<p style="color: red; margin: 8px 0;">150.00 MAD</p>
-<a href="https://wa.me/212698637230" target="_blank"><button style="background: red; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer;">💬 WhatsApp</button></a>
-</div>
-</div>
-<!-- بطاقة4 -->
-<div style="width: 220px; background-color: #222; border-radius: 12px; overflow: hidden; border: 2px solid red;">
-<img alt="Kawasaki H2R" src="https://images-ext-1.discordapp.net/external/o7EK1Mpykd-JwdpY4XWV96gyzYEjCUwcQLNK1UCFbgU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/994966462542389278/f978731975ed5c18857c05be87193caf.png?format=webp&amp;quality=lossless&amp;width=768&amp;height=768" style="width: 100%; height: 140px; object-fit: cover;"/>
-<div style="padding: 10px; color: white; text-align: center;">
-<h3 style="margin: 10px 0;">Kawasaki H2R</h3>
-<p style="margin: 0; font-size: 14px;">Category: motorbikes</p>
-<p style="color: red; margin: 8px 0;">150.00 MAD</p>
-<a href="https://wa.me/212698637230" target="_blank"><button style="background: red; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer;">💬 WhatsApp</button></a>
-</div>
-</div>
-<!-- بطاقة4 -->
-<div style="width: 220px; background-color: #222; border-radius: 12px; overflow: hidden; border: 2px solid red;">
-<img alt="Kawasaki H2R" src="https://images-ext-1.discordapp.net/external/o7EK1Mpykd-JwdpY4XWV96gyzYEjCUwcQLNK1UCFbgU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/994966462542389278/f978731975ed5c18857c05be87193caf.png?format=webp&amp;quality=lossless&amp;width=768&amp;height=768" style="width: 100%; height: 140px; object-fit: cover;"/>
-<div style="padding: 10px; color: white; text-align: center;">
-<h3 style="margin: 10px 0;">Kawasaki H2R</h3>
-<p style="margin: 0; font-size: 14px;">Category: motorbikes</p>
-<p style="color: red; margin: 8px 0;">150.00 MAD</p>
-<a href="https://wa.me/212698637230" target="_blank"><button style="background: red; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer;">💬 WhatsApp</button></a>
-</div>
-</div>
-<!-- بطاقة4 -->
-<div style="width: 220px; background-color: #222; border-radius: 12px; overflow: hidden; border: 2px solid red;">
-<img alt="Kawasaki H2R" src="https://images-ext-1.discordapp.net/external/o7EK1Mpykd-JwdpY4XWV96gyzYEjCUwcQLNK1UCFbgU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/994966462542389278/f978731975ed5c18857c05be87193caf.png?format=webp&amp;quality=lossless&amp;width=768&amp;height=768" style="width: 100%; height: 140px; object-fit: cover;"/>
-<div style="padding: 10px; color: white; text-align: center;">
-<h3 style="margin: 10px 0;">Kawasaki H2R</h3>
-<p style="margin: 0; font-size: 14px;">Category: motorbikes</p>
-<p style="color: red; margin: 8px 0;">150.00 MAD</p>
-<a href="https://wa.me/212698637230" target="_blank"><button style="background: red; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer;">💬 WhatsApp</button></a>
-</div>
-</div>
-<!-- بطاقة4 -->
-<div style="width: 220px; background-color: #222; border-radius: 12px; overflow: hidden; border: 2px solid red;">
-<img alt="Kawasaki H2R" src="https://images-ext-1.discordapp.net/external/o7EK1Mpykd-JwdpY4XWV96gyzYEjCUwcQLNK1UCFbgU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/994966462542389278/f978731975ed5c18857c05be87193caf.png?format=webp&amp;quality=lossless&amp;width=768&amp;height=768" style="width: 100%; height: 140px; object-fit: cover;"/>
-<div style="padding: 10px; color: white; text-align: center;">
-<h3 style="margin: 10px 0;">Kawasaki H2R</h3>
-<p style="margin: 0; font-size: 14px;">Category: motorbikes</p>
-<p style="color: red; margin: 8px 0;">150.00 MAD</p>
-<a href="https://wa.me/212698637230" target="_blank"><button style="background: red; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer;">💬 WhatsApp</button></a>
-</div>
-</div>
-<!-- بطاقة4 -->
-<div style="width: 220px; background-color: #222; border-radius: 12px; overflow: hidden; border: 2px solid red;">
-<img alt="Kawasaki H2R" src="https://images-ext-1.discordapp.net/external/o7EK1Mpykd-JwdpY4XWV96gyzYEjCUwcQLNK1UCFbgU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/994966462542389278/f978731975ed5c18857c05be87193caf.png?format=webp&amp;quality=lossless&amp;width=768&amp;height=768" style="width: 100%; height: 140px; object-fit: cover;"/>
-<div style="padding: 10px; color: white; text-align: center;">
-<h3 style="margin: 10px 0;">Kawasaki H2R</h3>
-<p style="margin: 0; font-size: 14px;">Category: motorbikes</p>
-<p style="color: red; margin: 8px 0;">150.00 MAD</p>
-<a href="https://wa.me/212698637230" target="_blank"><button style="background: red; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; cursor: pointer;">💬 WhatsApp</button></a>
-</div>
-</div>
-</div></div></body>
-</html>
