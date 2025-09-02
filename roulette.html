@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>RN FAMILY - Roulette</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:24px;
+    font-family:Arial, Helvetica, sans-serif;
+    background:linear-gradient(135deg,#1c1c1c,#3d3d3d);
+    color:#fff;
+    display:flex; justify-content:center; align-items:center; min-height:100vh;
+  }
+  .app{max-width:1100px; width:100%}
+  h1{margin:0 0 18px; color:#ff4d4d; text-align:center; letter-spacing:.5px}
+
+  .layout{display:flex; gap:32px; align-items:center; justify-content:center; flex-wrap:wrap}
+
+  /* Wheel area */
+  .wheel-wrap{position:relative; width:520px; height:520px}
+  canvas#wheel{width:520px; height:520px; border:5px solid rgba(255,255,255,.2); border-radius:50%; background:#111}
+
+  /* Pointer arrow (يمين) */
+  .pointer{
+    position:absolute; right:-14px; top:50%; transform:translateY(-50%);
+    width:0; height:0;
+    border-top:14px solid transparent;
+    border-bottom:14px solid transparent;
+    border-left:22px solid #ff4d4d;
+    filter:drop-shadow(0 0 3px rgba(0,0,0,.6));
+  }
+
+  /* Center logo image */
+  .logo{
+    position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+    width:110px; height:110px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 0 6px #111 inset, 0 4px 18px rgba(0,0,0,.5);
+    user-select:none; pointer-events:none;
+    overflow:hidden;
+    background:#000;
+  }
+  .logo img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+
+  .result{
+    margin-top:14px; text-align:center; min-height:28px;
+    font-size:20px; font-weight:700;
+  }
+
+  /* Controls */
+  .controls{width:320px; display:flex; flex-direction:column; gap:12px}
+  .controls label{font-size:14px; opacity:.9}
+  textarea{
+    width:100%; height:220px; border:none; border-radius:10px; padding:10px 12px;
+    background:#232323; color:#fff; resize:vertical; line-height:1.6
+  }
+  .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+  button{
+    border:none; border-radius:10px; padding:10px 16px; font-size:15px; cursor:pointer;
+    background:#ff4d4d; color:#fff; transition:.25s; box-shadow:0 6px 18px rgba(255,77,77,.2);
+  }
+  button:hover{background:#e13a3a}
+  button.secondary{background:#2d2d2d; box-shadow:none}
+  button.secondary:hover{background:#3a3a3a}
+  .options{display:flex; gap:14px; align-items:center; flex-wrap:wrap; font-size:14px}
+  .options input[type="checkbox"]{transform:translateY(1px)}
+  .slider{display:flex; align-items:center; gap:10px}
+  input[type="range"]{width:160px}
+  .hint{font-size:12px; opacity:.75}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Name Picker (Wheel)</h1>
+
+  <div class="layout">
+    <!-- Wheel -->
+    <div class="wheel-wrap" id="wheelWrap" title="اضغط لتدوير العجلة">
+      <canvas id="wheel" width="520" height="520"></canvas>
+      <div class="pointer" aria-hidden="true"></div>
+
+      <!-- هنا دخلت الصورة كلوغو فالثوسط -->
+      <div class="logo" aria-hidden="true">
+        <img src="https://images-ext-1.discordapp.net/external/sUXygQIwbI2OsrJuGkLkOQxlsIFfRC05Qgfqc6asJsU/%3Fsize%3D1024/https/cdn.discordapp.com/icons/1411054379401740328/2a640442ebe42acc67eb06bff72f1723.png?format=webp&quality=lossless&width=334&height=334" alt="logo">
+      </div>
+
+      <div id="result" class="result"></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+      <label for="names">الأسماء (كل سطر إسم):</label>
+      <textarea id="names">Jane
+Mike
+Peter
+Amanda
+John
+Sarah</textarea>
+
+      <div class="row">
+        <button id="spinBtn">Spin</button>
+        <button class="secondary" id="shuffleBtn">Shuffle</button>
+        <button class="secondary" id="clearBtn">Clear</button>
+      </div>
+
+      <div class="options">
+        <label><input type="checkbox" id="removeWinner" checked> حذف الاسم الفائز من اللائحة</label>
+      </div>
+
+      <div class="slider">
+        <span>مدة الدوران:</span>
+        <input type="range" id="duration" min="3" max="10" step="0.5" value="6">
+        <span id="durationVal">6s</span>
+      </div>
+
+      <div class="options">
+        <label><input type="checkbox" id="tickSound" checked> صوت الطقطقة</label>
+      </div>
+
+      <div class="hint">تقدّر تدوّر العجلة بالضغط عليها أو باستعمال Ctrl+Enter.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const $ = s => document.querySelector(s);
+  let names = [];
+  let startAngle = 0;
+  let spinning = false;
+  let lastTickIndex = -1;
+  let winnerIndex = -1;
+
+  const canvas = $("#wheel");
+  const ctx = canvas.getContext("2d");
+  const R = canvas.width/2;
+  const innerR = 92;
+
+  const namesTA = $("#names");
+  const resultEl = $("#result");
+  const spinBtn = $("#spinBtn");
+  const shuffleBtn = $("#shuffleBtn");
+  const clearBtn = $("#clearBtn");
+  const removeWinnerCB = $("#removeWinner");
+  const durationSlider = $("#duration");
+  const durationVal = $("#durationVal");
+  const wheelWrap = $("#wheelWrap");
+  const tickSoundCB = $("#tickSound");
+
+  durationSlider.addEventListener("input", ()=> durationVal.textContent = durationSlider.value + "s");
+
+  function parseNames(){
+    names = namesTA.value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    if (winnerIndex >= names.length) winnerIndex = -1;
+  }
+
+  function sliceColor(i,n){ const hue = (360*i/n)|0; return `hsl(${hue} 85% 50%)`; }
+
+  function drawWheel(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const n = Math.max(names.length,1);
+    const anglePer = (2*Math.PI)/n;
+
+    for (let i=0;i<n;i++){
+      const start = startAngle + i*anglePer;
+      const end = start + anglePer;
+
+      ctx.beginPath();
+      ctx.moveTo(R,R);
+      ctx.arc(R,R,R-10,start,end);
+      ctx.closePath();
+      ctx.fillStyle = sliceColor(i,n);
+      ctx.fill();
+
+      if (i===winnerIndex){
+        ctx.fillStyle = "rgba(255,255,255,0.18)";
+        ctx.fill();
+      }
+
+      ctx.save();
+      ctx.translate(R,R);
+      ctx.rotate(start + anglePer/2);
+      ctx.textAlign = "right";
+      ctx.fillStyle = "#fff";
+      ctx.font = "18px Arial";
+      const label = names[i] ?? "—";
+      ctx.fillText(label, R-26, 8);
+      ctx.restore();
+    }
+
+    ctx.beginPath();
+    ctx.arc(R,R,innerR,0,2*Math.PI);
+    ctx.fillStyle = "#000";
+    ctx.fill();
+  }
+
+  function pointerIndex(){
+    const n = Math.max(names.length,1);
+    const anglePer = (2*Math.PI)/n;
+    const a = (startAngle % (2*Math.PI) + 2*Math.PI) % (2*Math.PI);
+    const idx = Math.floor((2*Math.PI - a) / anglePer) % n;
+    return idx;
+  }
+
+  let audioCtx = null;
+  function tick(){
+    if (!tickSoundCB.checked) return;
+    try{
+      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+      const o = audioCtx.createOscillator();
+      const g = audioCtx.createGain();
+      o.type = "square";
+      o.frequency.value = 1200;
+      g.gain.value = 0.06;
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start();
+      setTimeout(()=>{ o.stop(); o.disconnect(); g.disconnect(); }, 25);
+    }catch{}
+  }
+
+  function spin(){
+    if (spinning || names.length === 0) return;
+    spinning = true;
+    resultEl.textContent = "";
+    winnerIndex = -1;
+    lastTickIndex = pointerIndex();
+
+    const n = names.length;
+    const anglePer = (2*Math.PI)/n;
+    const targetIndex = Math.floor(Math.random()*n);
+    const targetAngleAtPointer = (2*Math.PI - (targetIndex + 0.5)*anglePer);
+    const extraTurns = 6 + Math.floor(Math.random()*3);
+    const targetTotal = targetAngleAtPointer + extraTurns*2*Math.PI;
+
+    const duration = parseFloat(durationSlider.value) * 1000;
+    const start = performance.now();
+    const startStartAngle = startAngle;
+
+    function frame(now){
+      const t = Math.min(1,(now-start)/duration);
+      const ease = 1 - Math.pow(1 - t, 3);
+      startAngle = startStartAngle + ease * targetTotal;
+      const idx = pointerIndex();
+      if (idx !== lastTickIndex){ tick(); lastTickIndex = idx; }
+      drawWheel();
+      if (t < 1) requestAnimationFrame(frame);
+      else {
+        spinning = false;
+        winnerIndex = pointerIndex();
+        drawWheel();
+        const winner = names[winnerIndex];
+        resultEl.textContent = `الفائز: ${winner}`;
+        if (removeWinnerCB.checked && names.length > 1){
+          names.splice(winnerIndex,1);
+          namesTA.value = names.join("\n");
+          winnerIndex = -1;
+          parseNames();
+          drawWheel();
+        }
+      }
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function shuffle(){
+    for (let i = names.length - 1; i > 0; i--){
+      const j = (Math.random() * (i + 1)) | 0;
+      [names[i], names[j]] = [names[j], names[i]];
+    }
+    namesTA.value = names.join("\n");
+    drawWheel();
+  }
+
+  function clearAll(){
+    names = [];
+    namesTA.value = "";
+    resultEl.textContent = "";
+    drawWheel();
+  }
+
+  namesTA.addEventListener("input", ()=> { parseNames(); drawWheel(); });
+  spinBtn.addEventListener("click", spin);
+  shuffleBtn.addEventListener("click", shuffle);
+  clearBtn.addEventListener("click", clearAll);
+  wheelWrap.addEventListener("click", spin);
+  window.addEventListener("keydown", (e)=>{ if (e.ctrlKey && e.key === "Enter") spin(); });
+
+  parseNames();
+  drawWheel();
+</script>
+</body>
+</html>

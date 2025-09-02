@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RN FAMILY - Login / Register</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+  html, body { height: 100%; }
+
+  /* الخلفية المتحركة من GIPHY */
+  body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('https://media.giphy.com/media/mlBDoVLOGidEc/giphy.gif');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    animation: bgPan 25s linear infinite;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    pointer-events: none;
+    z-index: 0;
+    backdrop-filter: blur(2px);
+  }
+
+  @keyframes bgPan {
+    0% { background-position: 20% 50%; }
+    50% { background-position: 80% 50%; }
+    100% { background-position: 20% 50%; }
+  }
+
+  .login-container {
+    position: relative;
+    z-index: 1;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    width: 350px;
+    text-align: center;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo { width: 60px; height: 60px; margin-bottom: 15px; border-radius: 12px; object-fit: cover; }
+
+  h1 { margin-bottom: 25px; font-size: 24px; letter-spacing: 2px; color: #ff4d4d; }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 14px;
+    outline: none;
+  }
+  input::placeholder { color: #ddd; opacity: 0.8; }
+
+  button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #ff4d4d;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.08s ease;
+  }
+  button:hover { background-color: #e63939; transform: translateY(-1px); }
+
+  .footer { margin-top: 20px; font-size: 12px; color: #ccc; }
+
+  .toggle-form { margin-top: 15px; font-size: 14px; color: #ff4d4d; cursor: pointer; text-decoration: underline; }
+
+  .hidden { display: none; }
+
+  @media (max-width: 420px){
+    .login-container { width: 90%; padding: 28px; }
+  }
+</style>
+</head>
+<body>
+  <div class="login-container" role="main" aria-labelledby="form-title">
+    <img src="https://cdn.discordapp.com/icons/1411054379401740328/2a640442ebe42acc67eb06bff72f1723.png?size=1024" alt="شعار RN FAMILY" class="logo">
+    <h1 id="form-title">تسجيل الدخول</h1>
+
+    <!-- نموذج الدخول -->
+    <form id="login-form">
+      <input type="text" placeholder="اسم المستخدم" required>
+      <input type="password" placeholder="كلمة المرور" required>
+      <button type="submit">دخول</button>
+    </form>
+
+    <!-- نموذج التسجيل -->
+    <form id="register-form" class="hidden" autocomplete="on">
+      <input type="text" placeholder="اسم المستخدم" required>
+      <input type="email" placeholder="البريد الإلكتروني" required>
+      <input type="password" placeholder="كلمة المرور" required>
+      <input type="password" placeholder="تأكيد كلمة المرور" required>
+      <button type="submit">تسجيل</button>
+    </form>
+
+    <div class="toggle-form" id="toggle-form">ما زلت ما عندك حساب؟ سجّل</div>
+    <div class="footer">&copy; 2025 RN FAMILY. جميع الحقوق محفوظة.</div>
+  </div>
+
+<script>
+  const loginForm = document.getElementById('login-form');
+  const registerForm = document.getElementById('register-form');
+  const toggleForm = document.getElementById('toggle-form');
+  const formTitle = document.getElementById('form-title');
+
+  toggleForm.addEventListener('click', () => {
+      loginForm.classList.toggle('hidden');
+      registerForm.classList.toggle('hidden');
+      if (loginForm.classList.contains('hidden')) {
+          formTitle.textContent = 'تسجيل';
+          toggleForm.textContent = 'عندك حساب؟ دخول';
+      } else {
+          formTitle.textContent = 'تسجيل الدخول';
+          toggleForm.textContent = "ما زلت ما عندك حساب؟ سجّل";
+      }
+  });
+
+  registerForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = registerForm[0].value.trim();
+      const email = registerForm[1].value.trim();
+      const password = registerForm[2].value.trim();
+      const confirmPassword = registerForm[3].value.trim();
+
+      if(password !== confirmPassword) {
+          alert("كلمات المرور غير متطابقة!");
+          return;
+      }
+
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      if(users.find(u => u.username === username)) {
+          alert("اسم المستخدم موجود بالفعل!");
+          return;
+      }
+
+      users.push({ username, email, password });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert("تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.");
+      registerForm.reset();
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+      formTitle.textContent = 'تسجيل الدخول';
+      toggleForm.textContent = "ما زلت ما عندك حساب؟ سجّل";
+  });
+
+  loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const username = loginForm[0].value.trim();
+      const password = loginForm[1].value.trim();
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(u => u.username === username && u.password === password);
+
+      if(user) {
+          alert(`مرحبا ${user.username}!`);
+          loginForm.reset();
+          window.location.href = 'dashboard.html';
+      } else {
+          alert("اسم المستخدم أو كلمة المرور غير صحيحة!");
+      }
+  });
+</script>
+</body>
+</html>
