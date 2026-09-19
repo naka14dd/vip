@@ -1,184 +1,788 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>RN FAMILY - Login / Register</title>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-  html, body { height: 100%; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n_a_k_aa | VIP Profile</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
 
-  /* الخلفية المتحركة من GIPHY */
-  body {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('https://media.giphy.com/media/mlBDoVLOGidEc/giphy.gif');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    animation: bgPan 25s linear infinite;
-  }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #03060d;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
 
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    pointer-events: none;
-    z-index: 0;
-    backdrop-filter: blur(2px);
-  }
+        /* Particle Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
 
-  @keyframes bgPan {
-    0% { background-position: 20% 50%; }
-    50% { background-position: 80% 50%; }
-    100% { background-position: 20% 50%; }
-  }
+        /* Mouse Tracking Interactive Glowing Aura Mass */
+        #interactive-aura {
+            position: fixed;
+            width: 520px;
+            height: 520px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(83, 252, 24, 0.18) 0%, rgba(147, 51, 234, 0.15) 45%, rgba(225, 48, 108, 0.1) 75%, rgba(0,0,0,0) 100%);
+            filter: blur(75px);
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+            will-change: transform, left, top;
+        }
 
-  .login-container {
-    position: relative;
-    z-index: 1;
-    background-color: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    width: 350px;
-    text-align: center;
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.06);
-  }
+        /* Holographic Orbit Border & Floating Avatar Effect */
+        @keyframes orbitRotate1 {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.04); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
 
-  .logo { width: 60px; height: 60px; margin-bottom: 15px; border-radius: 12px; object-fit: cover; }
+        @keyframes orbitRotate2 {
+            0% { transform: rotate(360deg) scale(1.03); }
+            50% { transform: rotate(180deg) scale(0.97); }
+            100% { transform: rotate(0deg) scale(1.03); }
+        }
 
-  h1 { margin-bottom: 25px; font-size: 24px; letter-spacing: 2px; color: #ff4d4d; }
+        @keyframes avatarBreath3D {
+            0% {
+                transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+                box-shadow: 0 0 35px rgba(83, 252, 24, 0.35), 0 0 70px rgba(168, 85, 247, 0.25);
+            }
+            50% {
+                transform: translateY(-12px) rotateX(4deg) rotateY(-4deg);
+                box-shadow: 0 0 60px rgba(83, 252, 24, 0.65), 0 0 110px rgba(225, 48, 108, 0.45);
+            }
+            100% {
+                transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+                box-shadow: 0 0 35px rgba(83, 252, 24, 0.35), 0 0 70px rgba(168, 85, 247, 0.25);
+            }
+        }
 
-  input {
-    width: 100%;
-    padding: 12px;
-    margin: 10px 0;
-    border: none;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #fff;
-    font-size: 14px;
-    outline: none;
-  }
-  input::placeholder { color: #ddd; opacity: 0.8; }
+        .avatar-3d-wrapper {
+            perspective: 1000px;
+        }
 
-  button {
-    width: 100%;
-    padding: 12px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 8px;
-    background-color: #ff4d4d;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.25s ease, transform 0.08s ease;
-  }
-  button:hover { background-color: #e63939; transform: translateY(-1px); }
+        .avatar-3d-card {
+            animation: avatarBreath3D 4.2s ease-in-out infinite;
+            transform-style: preserve-3d;
+            border-radius: 50%;
+        }
 
-  .footer { margin-top: 20px; font-size: 12px; color: #ccc; }
+        .avatar-ring-container {
+            position: relative;
+        }
 
-  .toggle-form { margin-top: 15px; font-size: 14px; color: #ff4d4d; cursor: pointer; text-decoration: underline; }
+        .avatar-ring-container::before {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            border-radius: 50%;
+            padding: 4px;
+            background: linear-gradient(135deg, #53fc18, #00f2fe, #4facfe, #e1306c, #9333ea, #53fc18);
+            background-size: 400% 400%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: orbitRotate1 7s linear infinite;
+        }
 
-  .hidden { display: none; }
+        .avatar-ring-container::after {
+            content: '';
+            position: absolute;
+            inset: -16px;
+            border-radius: 50%;
+            padding: 2px;
+            border: 2px dashed rgba(83, 252, 24, 0.5);
+            animation: orbitRotate2 12s linear infinite;
+        }
 
-  @media (max-width: 420px){
-    .login-container { width: 90%; padding: 28px; }
-  }
-</style>
+        /* Gradient Username Text Animation */
+        @keyframes textShimmerWave {
+            0% { background-position: 0% 50%; filter: drop-shadow(0 0 10px rgba(83, 252, 24, 0.5)); }
+            50% { background-position: 100% 50%; filter: drop-shadow(0 0 22px rgba(225, 48, 108, 0.8)); }
+            100% { background-position: 0% 50%; filter: drop-shadow(0 0 10px rgba(83, 252, 24, 0.5)); }
+        }
+
+        .animated-username {
+            background: linear-gradient(90deg, #53fc18, #ffffff, #00f2fe, #e1306c, #a855f7, #53fc18);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShimmerWave 4s ease infinite;
+            letter-spacing: 2.5px;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(10, 15, 28, 0.72);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 35px 80px -15px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        }
+
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(16px);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .glass-pill:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(83, 252, 24, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(83, 252, 24, 0.25);
+        }
+
+        /* Social Icon Hover Transitions */
+        .icon-btn-insta:hover {
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            box-shadow: 0 14px 38px -5px rgba(225, 48, 108, 0.65);
+            transform: translateY(-8px) scale(1.12);
+            border-color: transparent;
+        }
+
+        .icon-btn-youtube:hover {
+            background: #ff0000;
+            box-shadow: 0 14px 38px -5px rgba(255, 0, 0, 0.65);
+            transform: translateY(-8px) scale(1.12);
+            border-color: transparent;
+        }
+
+        .icon-btn-kick:hover {
+            background: #53fc18;
+            box-shadow: 0 14px 38px -5px rgba(83, 252, 24, 0.7);
+            transform: translateY(-8px) scale(1.12);
+            border-color: transparent;
+        }
+
+        .icon-btn-kick:hover svg {
+            fill: #000000;
+        }
+
+        /* Equalizer Bar Animation */
+        @keyframes eqBarPulse {
+            0%, 100% { height: 4px; }
+            50% { height: 20px; }
+        }
+
+        .eq-bar {
+            width: 3px;
+            background: linear-gradient(to top, #53fc18, #00f2fe, #e1306c);
+            border-radius: 3px;
+            height: 4px;
+        }
+
+        .playing .eq-1 { animation: eqBarPulse 0.7s ease-in-out infinite 0.1s; }
+        .playing .eq-2 { animation: eqBarPulse 0.6s ease-in-out infinite 0.3s; }
+        .playing .eq-3 { animation: eqBarPulse 0.8s ease-in-out infinite 0.2s; }
+        .playing .eq-4 { animation: eqBarPulse 0.5s ease-in-out infinite 0.4s; }
+
+        /* Custom Range Input */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: rgba(255, 255, 255, 0.12);
+            height: 5px;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #53fc18;
+            cursor: pointer;
+            box-shadow: 0 0 12px #53fc18;
+            transition: transform 0.2s;
+        }
+
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.35);
+        }
+
+        /* Click Ripple Effect */
+        .click-ripple {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            border: 2px solid rgba(83, 252, 24, 0.85);
+            animation: rippleBurst 0.65s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+            z-index: 9999;
+        }
+
+        @keyframes rippleBurst {
+            0% { width: 0px; height: 0px; opacity: 1; border-color: #53fc18; }
+            50% { border-color: #00f2fe; }
+            100% { width: 160px; height: 160px; opacity: 0; border-color: #e1306c; }
+        }
+
+        /* Pulsing Live / Offline Dot */
+        @keyframes livePulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(83, 252, 24, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(83, 252, 24, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(83, 252, 24, 0); }
+        }
+
+        @keyframes offlinePulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(244, 63, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
+        }
+
+        .live-dot {
+            animation: livePulse 2s infinite;
+        }
+
+        .offline-dot {
+            animation: offlinePulse 2s infinite;
+        }
+
+        .btn-play-neon {
+            background-color: rgba(18, 38, 15, 0.85);
+            border: 1px solid #53fc18;
+            color: #53fc18;
+            box-shadow: 0 0 10px rgba(83, 252, 24, 0.2);
+        }
+        .btn-play-neon:hover {
+            background-color: #53fc18;
+            color: #000000;
+            box-shadow: 0 0 18px rgba(83, 252, 24, 0.6);
+        }
+
+        /* Notification Banner Visual Aesthetics */
+        @keyframes audioNoticeGlow {
+            0%, 100% {
+                box-shadow: 0 10px 30px -5px rgba(83, 252, 24, 0.3), 0 0 15px rgba(0, 242, 254, 0.2);
+                border-color: rgba(83, 252, 24, 0.5);
+            }
+            50% {
+                box-shadow: 0 15px 40px -2px rgba(147, 51, 234, 0.4), 0 0 25px rgba(225, 48, 108, 0.3);
+                border-color: rgba(147, 51, 234, 0.6);
+            }
+        }
+        .audio-notice-banner {
+            animation: audioNoticeGlow 3s ease-in-out infinite;
+        }
+    </style>
 </head>
-<body>
-  <div class="login-container" role="main" aria-labelledby="form-title">
-    <img src="https://cdn.discordapp.com/icons/1411054379401740328/2a640442ebe42acc67eb06bff72f1723.png?size=1024" alt="شعار RN FAMILY" class="logo">
-    <h1 id="form-title">تسجيل الدخول</h1>
+<body class="flex flex-col items-center justify-center p-4 py-8 md:p-8 relative select-none">
 
-    <!-- نموذج الدخول -->
-    <form id="login-form">
-      <input type="text" placeholder="اسم المستخدم" required>
-      <input type="password" placeholder="كلمة المرور" required>
-      <button type="submit">دخول</button>
-    </form>
+    <!-- Notification Banner (Top Right) -->
+    <div id="audioNotice" class="fixed top-5 right-5 z-50 audio-notice-banner flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-slate-900/85 text-white border border-emerald-500/50 shadow-2xl backdrop-blur-xl transition-all duration-500 hover:scale-105 cursor-pointer max-w-[90vw] sm:max-w-auto">
+        <div class="relative flex items-center justify-center w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 shrink-0">
+            <i class="fa-solid fa-bell text-xs animate-bounce"></i>
+            <span class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+            </span>
+        </div>
+        <div class="flex flex-col">
+            <span class="text-[11px] font-extrabold tracking-wider text-emerald-300 uppercase">Notification</span>
+            <span class="text-[11px] text-slate-300 font-medium">Click anywhere to play music 🎵</span>
+        </div>
+        <button id="closeNoticeBtn" class="ml-1.5 text-slate-400 hover:text-white transition-colors text-xs p-1">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
 
-    <!-- نموذج التسجيل -->
-    <form id="register-form" class="hidden" autocomplete="on">
-      <input type="text" placeholder="اسم المستخدم" required>
-      <input type="email" placeholder="البريد الإلكتروني" required>
-      <input type="password" placeholder="كلمة المرور" required>
-      <input type="password" placeholder="تأكيد كلمة المرور" required>
-      <button type="submit">تسجيل</button>
-    </form>
+    <!-- Background Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
 
-    <div class="toggle-form" id="toggle-form">ما زلت ما عندك حساب؟ سجّل</div>
-    <div class="footer">&copy; 2025 RN FAMILY. جميع الحقوق محفوظة.</div>
-  </div>
+    <!-- Mouse Tracking Interactive Aura -->
+    <div id="interactive-aura"></div>
 
-<script>
-  const loginForm = document.getElementById('login-form');
-  const registerForm = document.getElementById('register-form');
-  const toggleForm = document.getElementById('toggle-form');
-  const formTitle = document.getElementById('form-title');
+    <!-- Audio Elements -->
+    <audio id="notifSound" src="notification.mp3" preload="auto"></audio>
+    <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
 
-  toggleForm.addEventListener('click', () => {
-      loginForm.classList.toggle('hidden');
-      registerForm.classList.toggle('hidden');
-      if (loginForm.classList.contains('hidden')) {
-          formTitle.textContent = 'تسجيل';
-          toggleForm.textContent = 'عندك حساب؟ دخول';
-      } else {
-          formTitle.textContent = 'تسجيل الدخول';
-          toggleForm.textContent = "ما زلت ما عندك حساب؟ سجّل";
-      }
-  });
+    <!-- Main Luxury Glass Container -->
+    <main class="glass-card w-full max-w-md rounded-3xl p-6 md:p-8 flex flex-col items-center justify-center relative z-10 my-auto border border-white/10">
+        
+        <!-- Live Status Badge Header -->
+        <div class="flex items-center justify-between w-full mb-6 px-1">
+            <div class="px-3 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-300 text-[11px] font-semibold tracking-wide">
+                <span>VIP CREATOR</span>
+            </div>
+            <div id="statusBadge" class="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 text-xs font-bold transition-all duration-500 shadow-lg">
+                <span id="statusDot" class="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block offline-dot"></span>
+                <span id="statusText">LIVE KICK</span>
+            </div>
+        </div>
 
-  registerForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const username = registerForm[0].value.trim();
-      const email = registerForm[1].value.trim();
-      const password = registerForm[2].value.trim();
-      const confirmPassword = registerForm[3].value.trim();
+        <!-- Avatar Ring -->
+        <div class="avatar-3d-wrapper mb-5">
+            <div class="avatar-3d-card avatar-ring-container rounded-full">
+                <div class="w-32 h-32 md:w-36 md:h-36 rounded-full overflow-hidden relative flex items-center justify-center border-2 border-white/20 bg-transparent">
+                    <img 
+                        src="avatar.png" 
+                        alt="Profile Avatar" 
+                        class="w-full h-full object-cover select-none pointer-events-none rounded-full"
+                        onerror="this.onerror=null; this.src='https://placehold.co/400x400/0b0f19/ffffff?text=n_a_k_aa';"
+                    />
+                </div>
+            </div>
+        </div>
 
-      if(password !== confirmPassword) {
-          alert("كلمات المرور غير متطابقة!");
-          return;
-      }
+        <!-- Animated Shimmering Username -->
+        <h1 class="animated-username text-3xl md:text-4xl font-black mb-1 text-center">
+            n_a_k_aa
+        </h1>
+        <p class="text-xs text-slate-400 tracking-wider mb-6 text-center font-medium">
+            Gaming • Content Creator • Streamer
+        </p>
 
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-      if(users.find(u => u.username === username)) {
-          alert("اسم المستخدم موجود بالفعل!");
-          return;
-      }
+        <!-- Social Action Buttons -->
+        <div class="flex items-center justify-center gap-4 w-full mb-6">
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/n_a_k_aa/?hl=en" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               aria-label="Instagram"
+               class="glass-pill icon-btn-insta w-14 h-14 rounded-2xl flex items-center justify-center group shadow-xl">
+                <i class="fa-brands fa-instagram text-2xl text-slate-200 group-hover:text-white transition-colors"></i>
+            </a>
 
-      users.push({ username, email, password });
-      localStorage.setItem('users', JSON.stringify(users));
-      alert("تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.");
-      registerForm.reset();
-      loginForm.classList.remove('hidden');
-      registerForm.classList.add('hidden');
-      formTitle.textContent = 'تسجيل الدخول';
-      toggleForm.textContent = "ما زلت ما عندك حساب؟ سجّل";
-  });
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@naka125" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               aria-label="YouTube"
+               class="glass-pill icon-btn-youtube w-14 h-14 rounded-2xl flex items-center justify-center group shadow-xl">
+                <i class="fa-brands fa-youtube text-2xl text-slate-200 group-hover:text-white transition-colors"></i>
+            </a>
 
-  loginForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const username = loginForm[0].value.trim();
-      const password = loginForm[1].value.trim();
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-      const user = users.find(u => u.username === username && u.password === password);
+            <!-- Kick -->
+            <a href="https://kick.com/naka125" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               aria-label="Kick"
+               class="glass-pill icon-btn-kick w-14 h-14 rounded-2xl flex items-center justify-center group shadow-xl">
+                <svg class="w-6 h-6 fill-slate-200 transition-colors" viewBox="0 0 24 24">
+                    <path d="M3 2h6v6h2V4h2V2h8v6h-2v2h-2v2h2v2h2v6h-8v-2h-2v-4H9v6H3V2zm6 4H6v12h3v-4h2v2h2v2h3v-2h-2v-2h-2v-2h2V8h2V6h-3v2h-2V6H9z"/>
+                </svg>
+            </a>
+        </div>
 
-      if(user) {
-          alert(`مرحبا ${user.username}!`);
-          loginForm.reset();
-          window.location.href = 'dashboard.html';
-      } else {
-          alert("اسم المستخدم أو كلمة المرور غير صحيحة!");
-      }
-  });
-</script>
+        <!-- Stats Counter Section (Reordered from Right to Left) -->
+        <div class="grid grid-cols-3 gap-2 w-full mb-6 text-center">
+            <div class="glass-pill p-3 rounded-2xl flex flex-col items-center">
+                <span class="text-lg font-black text-fuchsia-400">DAILY</span>
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Live Streams</span>
+            </div>
+            <div class="glass-pill p-3 rounded-2xl flex flex-col items-center">
+                <span class="text-lg font-black text-cyan-400">1.2M</span>
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Views</span>
+            </div>
+            <div class="glass-pill p-3 rounded-2xl flex flex-col items-center">
+                <span id="followersCount" class="text-lg font-black text-emerald-400">125K+</span>
+                <span class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Followers</span>
+            </div>
+        </div>
+
+        <!-- Links Section (RTL Inverted) -->
+        <div class="flex flex-col gap-2.5 w-full mb-6">
+            <!-- Discord Link -->
+            <a href="https://discord.gg/4z2eVUpDq" target="_blank" class="glass-pill p-3.5 rounded-2xl flex items-center justify-between text-sm font-bold text-slate-200 hover:text-white px-5">
+                <i class="fa-solid fa-chevron-left text-xs text-slate-500"></i>
+                <div class="flex items-center gap-3">
+                    <span>Discord Community</span>
+                    <i class="fa-brands fa-discord text-lg text-indigo-400"></i>
+                </div>
+            </a>
+
+            <!-- Spotify Link -->
+            <a href="https://spotify.com" target="_blank" class="glass-pill p-3.5 rounded-2xl flex items-center justify-between text-sm font-bold text-slate-200 hover:text-white px-5">
+                <i class="fa-solid fa-chevron-left text-xs text-slate-500"></i>
+                <div class="flex items-center gap-3">
+                    <span>My Playlist</span>
+                    <i class="fa-brands fa-spotify text-lg text-emerald-400"></i>
+                </div>
+            </a>
+        </div>
+
+        <!-- Music Player Module -->
+        <div class="glass-pill w-full rounded-2xl p-4 flex flex-col gap-3 border border-white/10 shadow-2xl">
+            <!-- Top Row: Inverted Layout (Equalizer on Left, Play Button + Track Info on Right) -->
+            <div class="flex items-center justify-between gap-3 flex-row-reverse">
+                <!-- Right Side: Play Button & Track Info -->
+                <div class="flex items-center gap-3 flex-row-reverse">
+                    <button id="playBtn" aria-label="Toggle Play" class="w-12 h-12 rounded-2xl btn-play-neon flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-lg shrink-0">
+                        <i id="playIcon" class="fa-solid fa-play text-base"></i>
+                    </button>
+                    
+                    <div class="flex flex-col text-right">
+                        <div class="flex items-center justify-end gap-2">
+                            <span class="text-xs font-bold text-slate-100 tracking-wide">music.mp3</span>
+                        </div>
+                        <span id="musicStatus" class="text-[10px] text-slate-400">Paused</span>
+                    </div>
+                </div>
+
+                <!-- Left Side: Animated Equalizer Bars -->
+                <div id="eqContainer" class="flex items-end gap-1 h-5 px-2">
+                    <div class="eq-bar eq-1"></div>
+                    <div class="eq-bar eq-2"></div>
+                    <div class="eq-bar eq-3"></div>
+                    <div class="eq-bar eq-4"></div>
+                </div>
+            </div>
+
+            <!-- Inverted Progress Bar Row (Current time on Right, Duration on Left) -->
+            <div class="w-full flex items-center gap-2 pt-1 flex-row-reverse">
+                <span id="currentTime" class="text-[10px] text-slate-400 w-7 text-left">0:00</span>
+                <input type="range" id="progressBar" value="0" min="0" max="100" class="w-full cursor-pointer">
+                <span id="durationTime" class="text-[10px] text-slate-400 w-7 text-right">0:00</span>
+            </div>
+
+            <!-- Inverted Volume Controls (Volume Icon on Right) -->
+            <div class="flex items-center justify-between pt-1 border-t border-white/5">
+                <div class="flex items-center gap-2 w-full flex-row-reverse">
+                    <i id="volumeIcon" class="fa-solid fa-volume-high text-xs text-slate-400"></i>
+                    <input type="range" id="volumeBar" value="70" min="0" max="100" class="w-full cursor-pointer">
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // Mouse/Touch Tracking Interactive Aura
+        const aura = document.getElementById('interactive-aura');
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let auraX = mouseX;
+        let auraY = mouseY;
+
+        window.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+            }
+        });
+
+        function animateAura() {
+            auraX += (mouseX - auraX) * 0.08;
+            auraY += (mouseY - auraY) * 0.08;
+            
+            aura.style.left = `${auraX}px`;
+            aura.style.top = `${auraY}px`;
+
+            requestAnimationFrame(animateAura);
+        }
+        animateAura();
+
+        // Click Ripple & Sparkle Effects
+        window.addEventListener('click', (e) => {
+            createRipple(e.clientX, e.clientY);
+            for (let i = 0; i < 10; i++) {
+                spawnSparkle(e.clientX, e.clientY);
+            }
+        });
+
+        function createRipple(x, y) {
+            const ripple = document.createElement('div');
+            ripple.className = 'click-ripple';
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            document.body.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 700);
+        }
+
+        function spawnSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            const size = Math.random() * 7 + 4;
+            const colors = ['#53fc18', '#00f2fe', '#e1306c', '#a855f7', '#ffffff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+
+            sparkle.style.position = 'fixed';
+            sparkle.style.left = `${x}px`;
+            sparkle.style.top = `${y}px`;
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+            sparkle.style.backgroundColor = color;
+            sparkle.style.borderRadius = '50%';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.zIndex = '9999';
+            sparkle.style.boxShadow = `0 0 12px ${color}`;
+
+            document.body.appendChild(sparkle);
+
+            const destinationX = (Math.random() - 0.5) * 140;
+            const destinationY = (Math.random() - 0.5) * 140;
+
+            const anim = sparkle.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                { transform: `translate(${destinationX}px, ${destinationY}px) scale(0)`, opacity: 0 }
+            ], {
+                duration: 650 + Math.random() * 350,
+                easing: 'cubic-bezier(0, .9, .57, 1)'
+            });
+
+            anim.onfinish = () => sparkle.remove();
+        }
+
+        // Particle Canvas Animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 65;
+
+        class BackgroundParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.2 + 0.6;
+                this.speedX = (Math.random() - 0.5) * 0.45;
+                this.speedY = (Math.random() - 0.5) * 0.45;
+                this.alpha = Math.random() * 0.75 + 0.2;
+                this.pulseSpeed = Math.random() * 0.02 + 0.005;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                this.alpha += Math.sin(Date.now() * this.pulseSpeed) * 0.006;
+
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = Math.max(0, Math.min(1, this.alpha));
+                ctx.fillStyle = '#ffffff';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new BackgroundParticle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Kick Channel Status Sync
+        const channelSlug = "naka125";
+        const statusBadge = document.getElementById('statusBadge');
+        const statusDot = document.getElementById('statusDot');
+        const statusText = document.getElementById('statusText');
+        const followersCountEl = document.getElementById('followersCount');
+
+        function formatNumber(num) {
+            if (!num || isNaN(num)) return '125K+';
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        async function fetchKickStatus() {
+            try {
+                const response = await fetch(`https://kick.com/api/v2/channels/${channelSlug}`);
+                if (!response.ok) throw new Error("API request failed");
+                
+                const data = await response.json();
+                const isLive = data.livestream !== null && data.livestream !== undefined;
+                
+                if (isLive) {
+                    statusBadge.className = "flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold transition-all duration-500 shadow-lg shadow-emerald-500/10";
+                    statusDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block live-dot";
+                } else {
+                    statusBadge.className = "flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 text-xs font-bold transition-all duration-500 shadow-lg shadow-rose-500/10";
+                    statusDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500 inline-block offline-dot";
+                }
+                statusText.textContent = "LIVE KICK";
+
+                const followers = data.followersCount || data.followers_count || data.followers_num;
+                if (followers) {
+                    followersCountEl.textContent = formatNumber(followers);
+                }
+            } catch (err) {
+                statusBadge.className = "flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/20 text-rose-400 border border-rose-500/40 text-xs font-bold transition-all duration-500 shadow-lg shadow-rose-500/10";
+                statusDot.className = "w-2.5 h-2.5 rounded-full bg-rose-500 inline-block offline-dot";
+                statusText.textContent = "LIVE KICK";
+            }
+        }
+
+        fetchKickStatus();
+        setInterval(fetchKickStatus, 15000);
+
+        const notifSound = document.getElementById('notifSound');
+        const bgMusic = document.getElementById('bgMusic');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const musicStatus = document.getElementById('musicStatus');
+        const eqContainer = document.getElementById('eqContainer');
+        const progressBar = document.getElementById('progressBar');
+        const volumeBar = document.getElementById('volumeBar');
+        const volumeIcon = document.getElementById('volumeIcon');
+        const currentTimeEl = document.getElementById('currentTime');
+        const durationTimeEl = document.getElementById('durationTime');
+        const audioNotice = document.getElementById('audioNotice');
+        const closeNoticeBtn = document.getElementById('closeNoticeBtn');
+
+        bgMusic.volume = volumeBar.value / 100;
+        notifSound.volume = 0.8;
+
+        function dismissNotice() {
+            if (audioNotice) {
+                audioNotice.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                audioNotice.style.opacity = '0';
+                audioNotice.style.transform = 'translateY(-20px)';
+                setTimeout(() => audioNotice.remove(), 400);
+            }
+        }
+
+        if (closeNoticeBtn) {
+            closeNoticeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                dismissNotice();
+            });
+        }
+
+        function setPlayingUI() {
+            playIcon.className = 'fa-solid fa-pause text-base';
+            musicStatus.textContent = 'Playing';
+            eqContainer.classList.add('playing');
+            dismissNotice();
+        }
+
+        function setPausedUI() {
+            playIcon.className = 'fa-solid fa-play text-base';
+            musicStatus.textContent = 'Paused';
+            eqContainer.classList.remove('playing');
+        }
+
+        // Trigger notification.mp3 and music.mp3 on first user interaction
+        function handleFirstInteraction() {
+            notifSound.play().catch(err => console.log("Notif sound play blocked:", err));
+
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    setPlayingUI();
+                }).catch(err => console.log("Music play blocked:", err));
+            }
+
+            dismissNotice();
+
+            interactionEvents.forEach(evt => {
+                window.removeEventListener(evt, handleFirstInteraction);
+            });
+        }
+
+        const interactionEvents = ['click', 'touchstart', 'pointerdown', 'keydown'];
+        interactionEvents.forEach(evt => {
+            window.addEventListener(evt, handleFirstInteraction);
+        });
+
+        // Toggle music play/pause
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    setPlayingUI();
+                }).catch(() => {
+                    musicStatus.textContent = 'music.mp3 missing';
+                });
+            } else {
+                bgMusic.pause();
+                setPausedUI();
+            }
+        });
+
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        bgMusic.addEventListener('timeupdate', () => {
+            if (bgMusic.duration) {
+                const progressPercent = (bgMusic.currentTime / bgMusic.duration) * 100;
+                progressBar.value = progressPercent;
+                currentTimeEl.textContent = formatTime(bgMusic.currentTime);
+                durationTimeEl.textContent = formatTime(bgMusic.duration);
+            }
+        });
+
+        progressBar.addEventListener('input', (e) => {
+            e.stopPropagation();
+            if (bgMusic.duration) {
+                bgMusic.currentTime = (progressBar.value / 100) * bgMusic.duration;
+            }
+        });
+
+        volumeBar.addEventListener('input', (e) => {
+            e.stopPropagation();
+            const vol = volumeBar.value / 100;
+            bgMusic.volume = vol;
+            
+            if (vol === 0) {
+                volumeIcon.className = 'fa-solid fa-volume-xmark text-xs text-slate-500';
+            } else if (vol < 0.5) {
+                volumeIcon.className = 'fa-solid fa-volume-low text-xs text-slate-400';
+            } else {
+                volumeIcon.className = 'fa-solid fa-volume-high text-xs text-slate-400';
+            }
+        });
+    </script>
 </body>
 </html>
